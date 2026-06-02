@@ -17,10 +17,13 @@ export function PomodoroTimer(props: Props): JSX.Element {
   const [timeCounting, setTimeCounting] = React.useState(false);
   // Indica o status do trabalho
   const [working, setWorking] = React.useState(false);
+  // Indica se esta no período de descanso
+  const [resting, setResting] = React.useState(false);
 
   // Quando working mudar
   useEffect(() => {
     if (working) document.body.classList.add('working');
+    if (resting) document.body.classList.remove('working');
   }, [working]);
 
   // Hook personalizado responsável por executar uma função em intervalos
@@ -40,6 +43,28 @@ export function PomodoroTimer(props: Props): JSX.Element {
     // Define que estamos em período de trabalho
     // Muda o estado pro css ser alterado
     setWorking(true);
+
+    setResting(false);
+
+    // Restaura o tempo
+    setMainTime(props.pomodoroTime);
+  };
+
+  const configureRest = (long: boolean) => {
+    // Inicia o contador
+    setTimeCounting(true);
+
+    // Define que não estamos em período de trabalho
+    setWorking(false);
+    /// Define que estamos descansando
+    setResting(true);
+
+    if (long) {
+      // Define como o tempo de descanso longo
+      setMainTime(props.longRestTime);
+    } else {
+      setMainTime(props.shortRestTime);
+    }
   };
 
   return (
@@ -51,7 +76,7 @@ export function PomodoroTimer(props: Props): JSX.Element {
 
       <div className="controls">
         <Button text="Work" onClick={() => configureWork()}></Button>
-        <Button text="teste" onClick={() => console.log(1)}></Button>
+        <Button text="Rest" onClick={() => configureRest(false)}></Button>
         <Button
           text={timeCounting ? 'Pause' : 'Play'}
           onClick={() => setTimeCounting(!timeCounting)}
