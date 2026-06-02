@@ -22,7 +22,40 @@ export function PomodoroTimer(props: Props): JSX.Element {
     <div className="pomodoro">
       <h2>You are working</h2>
       <Timer mainTime={mainTime} />
-      <Button text="teste" onClick={() => console.log(1)}></Button>
+
+      <div className="controls">
+        <Button text="teste" onClick={() => console.log(1)}></Button>
+        <Button text="teste" onClick={() => console.log(1)}></Button>
+        <Button text="teste" onClick={() => console.log(1)}></Button>
+      </div>
+
+      <div className="details">
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo illo esse
+          omnis delectus. Earum deleniti saepe odit amet. At et consequatur cum.
+          Optio eligendi perspiciatis perferendis minus beatae nihil fuga!
+        </p>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo illo esse
+          omnis delectus. Earum deleniti saepe odit amet. At et consequatur cum.
+          Optio eligendi perspiciatis perferendis minus beatae nihil fuga!
+        </p>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo illo esse
+          omnis delectus. Earum deleniti saepe odit amet. At et consequatur cum.
+          Optio eligendi perspiciatis perferendis minus beatae nihil fuga!
+        </p>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo illo esse
+          omnis delectus. Earum deleniti saepe odit amet. At et consequatur cum.
+          Optio eligendi perspiciatis perferendis minus beatae nihil fuga!
+        </p>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo illo esse
+          omnis delectus. Earum deleniti saepe odit amet. At et consequatur cum.
+          Optio eligendi perspiciatis perferendis minus beatae nihil fuga!
+        </p>
+      </div>
     </div>
   );
 }
