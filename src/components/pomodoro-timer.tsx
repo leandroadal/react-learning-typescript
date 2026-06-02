@@ -2,6 +2,11 @@ import React, { JSX, useEffect } from 'react';
 import { useInterval } from '../hooks/use-interval';
 import { Button } from './buttom';
 import { Timer } from './timer';
+import { useAudio } from '../hooks/use-audio';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const bellStart = require('../sounds/bell-start.mp3');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const bellFinish = require('../sounds/bell-finish.mp3');
 
 interface Props {
   pomodoroTime: number;
@@ -19,6 +24,9 @@ export function PomodoroTimer(props: Props): JSX.Element {
   const [working, setWorking] = React.useState(false);
   // Indica se esta no período de descanso
   const [resting, setResting] = React.useState(false);
+
+  const startSound = useAudio(bellStart);
+  const stopSound = useAudio(bellFinish);
 
   // Quando working mudar
   useEffect(() => {
@@ -48,6 +56,9 @@ export function PomodoroTimer(props: Props): JSX.Element {
 
     // Restaura o tempo
     setMainTime(props.pomodoroTime);
+
+    // Toca um audio quando inicia o período de trabalho
+    startSound.play();
   };
 
   const configureRest = (long: boolean) => {
@@ -65,6 +76,9 @@ export function PomodoroTimer(props: Props): JSX.Element {
     } else {
       setMainTime(props.shortRestTime);
     }
+
+    // Toca um audio quando inicia o descanso
+    stopSound.play();
   };
 
   return (
