@@ -77,7 +77,9 @@ export function PomodoroTimer(props: Props): JSX.Element {
       <div className="controls">
         <Button text="Work" onClick={() => configureWork()}></Button>
         <Button text="Rest" onClick={() => configureRest(false)}></Button>
+        {/* Se o timer não estiver ativo com estado working ou resting o botão de play/pause some*/}
         <Button
+          className={!working && !resting ? 'hidden' : ''}
           text={timeCounting ? 'Pause' : 'Play'}
           onClick={() => setTimeCounting(!timeCounting)}
         ></Button>
