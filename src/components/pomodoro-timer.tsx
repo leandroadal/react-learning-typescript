@@ -45,10 +45,10 @@ export function PomodoroTimer(props: Props): JSX.Element {
   useInterval(
     () => {
       // Reduz 1 segundo do tempo atual a cada execução
-      setMainTime(mainTime - 1);
+      setMainTime((prevTime) => prevTime - 1);
 
       // Registra o tempo total trabalhado
-      if (working) setFullWorkingTime(fullWorkingTime + 1);
+      if (working) setFullWorkingTime((prevTime) => prevTime + 1);
     },
     // Se o contador estiver ativo, executa a cada 1000ms (1 segundo)
     timeCounting ? 1000 : null,
@@ -69,13 +69,7 @@ export function PomodoroTimer(props: Props): JSX.Element {
 
     // Toca um audio quando inicia o período de trabalho
     startSound.play();
-  }, [
-    setTimeCounting,
-    setWorking,
-    setResting,
-    setMainTime,
-    props.pomodoroTime,
-  ]);
+  }, [props.pomodoroTime]);
 
   const configureRest = useCallback(
     (long: boolean) => {
@@ -97,14 +91,7 @@ export function PomodoroTimer(props: Props): JSX.Element {
       // Toca um audio quando inicia o descanso
       stopSound.play();
     },
-    [
-      setTimeCounting,
-      setWorking,
-      setResting,
-      setMainTime,
-      props.longRestTime,
-      props.shortRestTime,
-    ],
+    [props.longRestTime, props.shortRestTime],
   );
 
   // Controla as transições automáticas entre trabalho e descanso
@@ -122,7 +109,7 @@ export function PomodoroTimer(props: Props): JSX.Element {
     if (working && cyclesQtdManager.length > 0) {
       configureRest(false);
       // Diminui um ciclo
-      cyclesQtdManager.pop();
+      setCyclesQtdManager((prev) => prev.slice(0, -1));
     } else if (working && cyclesQtdManager.length <= 0) {
       // Inicia o descanso longo
       configureRest(true);
@@ -130,11 +117,11 @@ export function PomodoroTimer(props: Props): JSX.Element {
       setCyclesQtdManager(new Array(props.cycles - 1).fill(true));
 
       // Incrementa os ciclos completos - para a seção de details mostrar
-      setCompletedCycles(completedCycles + 1);
+      setCompletedCycles((prev) => prev + 1);
     }
 
     // Conta mais um pomodoro concluído
-    if (working) setNumberOfPomodoros(numberOfPomodoros + 1);
+    if (working) setNumberOfPomodoros((prev) => prev + 1);
     // Quando o descanso termina, inicia automaticamente um novo trabalho
     if (resting) configureWork();
   }, [
